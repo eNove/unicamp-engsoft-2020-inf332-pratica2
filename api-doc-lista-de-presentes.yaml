@@ -51,7 +51,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/presentes'
+              $ref: '#/definitions/presente'
         '400':
           description: ID da Lista de presentes não encontrado.
         '401':
@@ -88,35 +88,7 @@ paths:
           description: Proibido.
         '500':
           description: Erro Interno.
-    delete:
-      tags:
-        - tag-presentes
-      summary: Exclui um lista de presentes
-      description: Faz a exclusão de uma lista de presentes.
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-      - in: body
-        name: body
-        description: Corpo do request a ser enviado para exclusão da lista. A lista sera excluida contento itens na lista ou não.
-        required: true
-        schema:
-          $ref: '#/definitions/presente'
-      security:
-        - client_id: []
-        - access_token: []
-      responses:
-        '201':
-          description: Deleted.
-        '401':
-          description: Não autorizado.
-        '403':
-          description: Proibido.
-        '500':
-          description: Erro Interno.    
-  /presentes/{IdProduto}:   
+  /presentes/{IdProduto}:      
     put:
       tags:
         - tag-presentes
@@ -148,7 +120,43 @@ paths:
         '404':
           description: Produto não encontrado
         '405':
-          description: Informações inválidas
+          description: Informações inválidas        
+  /presentes/{IdLista}/lista:  
+    delete:
+      tags:
+        - tag-presentes
+      summary: Exclui um lista de presentes
+      description: Faz a exclusão de uma lista de presentes.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+      - name: IdLista
+        in: path 
+        description: ID da lista de presente
+        required: true
+        type: integer
+        format: int64
+      - in: body
+        name: body
+        description: Corpo do request a ser enviado para exclusão da lista. A lista sera excluida contento itens na lista ou não.
+        required: true
+        schema:
+          $ref: '#/definitions/presente'
+      security:
+        - client_id: []
+        - access_token: []
+      responses:
+        '201':
+          description: Deleted.
+        '401':
+          description: Não autorizado.
+        '403':
+          description: Proibido.
+        '500':
+          description: Erro Interno.    
+  /presentes/{IdLista}{IdProduto}:   
     delete:
       tags:
         - tag-presentes
@@ -162,12 +170,18 @@ paths:
         - application/xml
         - application/json
       parameters:
+        - name: IdLista
+          in: path
+          description: ID da lista de presente
+          required: true
+          type: integer
+          format: int64
         - name: IdProduto
           in: path
           description: ID do produto na lista de presente
           required: true
           type: integer
-          format: int64
+          format: int64  
         - in: body
           name: body
           description: Lista de presente precisa estar cadastrada previamente, o item deve compor a lista
@@ -182,11 +196,6 @@ paths:
         '405':
           description: Informações inválidas        
 definitions:
-  presentes:
-    type: array
-    items:
-      type: object
-      $ref: '#/definitions/presente'
   presente:
     type: object
     properties:
