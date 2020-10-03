@@ -71,7 +71,7 @@ paths:
     post:
       tags:
         - promocao
-      summary: Obtem promocoes
+      summary: Cadastra promocoes
       description: Obtem produtos em promocao no momento.
       consumes:
         - application/json
