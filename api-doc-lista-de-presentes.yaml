@@ -7,7 +7,6 @@ host: localhost
 basePath: /presentes/v1
 tags:
   - name: tag-presentes
-  - name: tag-incluir-lista-presentes
 security:
   - client_id: []
   - access_token: []
@@ -31,7 +30,7 @@ paths:
     get:
       tags:
         - tag-presentes
-      summary: Lista de presentes
+      summary: Obtem uma lista de presentes
       description: Obtem produtos de um determinada lista de presentes.
       consumes:
         - application/json
@@ -63,8 +62,8 @@ paths:
           description: Erro Interno.
     post:
       tags:
-        - tag-incluir-lista-presentes
-      summary: Incluir Lista de Presentes
+        - tag-presentes
+      summary: Incluir lista de presentes
       description: Realiza a inclusão de uma lista de presentes.
       consumes:
         - application/json
@@ -76,7 +75,7 @@ paths:
         description: Corpo do request a ser enviado para inclusão da lista. Deve ser enviado uma lista com os IDs dos produtos a serem incluídos nela.
         required: true
         schema:
-          $ref: '#/definitions/presentePost'
+          $ref: '#/definitions/presente'
       security:
         - client_id: []
         - access_token: []
@@ -89,6 +88,99 @@ paths:
           description: Proibido.
         '500':
           description: Erro Interno.
+    delete:
+      tags:
+        - tag-presentes
+      summary: Exclui um lista de presentes
+      description: Faz a exclusão de uma lista de presentes.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Corpo do request a ser enviado para exclusão da lista. A lista sera excluida contento itens na lista ou não.
+        required: true
+        schema:
+          $ref: '#/definitions/presente'
+      security:
+        - client_id: []
+        - access_token: []
+      responses:
+        '201':
+          description: Deleted.
+        '401':
+          description: Não autorizado.
+        '403':
+          description: Proibido.
+        '500':
+          description: Erro Interno.    
+  /presentes/{IdProduto}:   
+    put:
+      tags:
+        - tag-presentes
+      summary: Atualiza dados de uma lista de presentes
+      description: ''
+      operationId: updatePresente
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: IdProduto
+          in: path
+          description: ID do produto na lista de presente
+          required: true
+          type: integer
+          format: int64
+        - in: body
+          name: body
+          description: Lista de presente precisa estar cadastrada previamente
+          required: true
+          schema:
+            $ref: '#/definitions/presentePost'
+      responses:
+        '400':
+          description: Identificador não válido
+        '404':
+          description: Produto não encontrado
+        '405':
+          description: Informações inválidas
+    delete:
+      tags:
+        - tag-presentes
+      summary: Deleta um produto de uma lista de presentes
+      description: ''
+      operationId: deletePresente
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: IdProduto
+          in: path
+          description: ID do produto na lista de presente
+          required: true
+          type: integer
+          format: int64
+        - in: body
+          name: body
+          description: Lista de presente precisa estar cadastrada previamente, o item deve compor a lista
+          required: true
+          schema:
+            $ref: '#/definitions/presente'
+      responses:
+        '400':
+          description: Identificador não válido
+        '404':
+          description: Produto não encontrado
+        '405':
+          description: Informações inválidas        
 definitions:
   presentes:
     type: array
