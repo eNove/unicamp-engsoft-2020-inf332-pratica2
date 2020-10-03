@@ -7,7 +7,7 @@ host: localhost
 basePath: /vendas/v1
 tags:
   - name: tag-vendas-categoria
-  - name: tag-vendas-lista-catogorias
+  - name: tag-vendas-lista-categorias
 security:
   - client_id: []
   - access_token: []
@@ -58,7 +58,7 @@ paths:
         - application/json
       parameters:
         - in: query
-          name: catogoria-query-param
+          name: categoria-query-param
           type: string
           description: Informar a categoria que deseja informações.
           required: true
@@ -83,7 +83,7 @@ paths:
   /categorias:
     get:
       tags: 
-        - tag-vendas-lista-catogorias
+        - tag-vendas-lista-categorias
       summary: Obtém coleção em Lote
       description: Obtém uma coleção dos produtos mais vendidos por categoria em lote.
       consumes:
@@ -92,7 +92,7 @@ paths:
         - application/json
       parameters:
         - in: query
-          name: lista-catogoria-query-param
+          name: lista-categoria-query-param
           type: array
           items:
             type: string
