@@ -1,0 +1,127 @@
+swagger: '2.0'
+info:
+  description: "API contento os recurosos para o e-Commerce Compra Fácil / Grupo 9."
+  version: "1.0.0"
+  title: "Compra Fácil API"
+  termsOfService: "https://github.com/eNove/unicamp-engsoft-2020-inf332-pratica2"
+  contact:
+    email: "comprafacil@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: localhost
+basePath: /precos/v1
+tags:
+  - name: tag-precos
+security:
+  - client_id: []
+  - access_token: []
+securityDefinitions:
+  client_id:
+    type: apiKey
+    in: header
+    name: client_id
+  access_token:
+    type: apiKey
+    in: header
+    name: access_token
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /comparar:
+    get:
+      tags:
+        - tag-precos
+      summary: Obtem coleção
+      description: Obtem uma coleção de preços para o mesmo produto de fornecedores diferentes.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: precos-query-param
+          type: string
+          description: informar o SKU do produto
+          required: true
+      security:
+        - client_id: []
+        - access_token: []
+      responses:
+        '200':
+          description: Sucesso.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/precos'
+        '400':
+          description: Id de produto inexistênte.
+        '401':
+          description: Não autorizado.
+        '403':
+          description: Proibido.
+        '500':
+          description: Erro Interno.
+definitions:
+  precos:
+    type: object
+    properties:
+      idProduto:
+        type: string
+        description: Identificadro do produto.
+      name:
+        type: string
+        description: Nome do produto.
+      fornecedores:
+        type: array
+        description: lista de fornecedores do produto solicitado
+        items:
+            type: object
+            properties:
+              idFornecedor:
+                type: string
+              name:
+                type: string
+              produtos:
+                type: array
+                items:
+                  type: object
+                  $ref: '#/definitions/produto'
+              avaliacoes:
+                type: object
+                properties:
+                  clientes:
+                    type: array
+                    items:
+                      properties:
+                        idCliente:
+                          type: string
+                        nota:
+                          type: number
+                        comentario:
+                          type: string
+                        idAvaliacao:
+                          type: string
+              mediaAvaliacao:
+                type: number
+              quantidadeVenda:
+                type: integer
+  produto:
+    type: object
+    properties:
+      id:
+        type: string
+      nome:
+        type: string
+      preco:
+        type: number
+      quantidadeTotal:
+        type: number
+      quantidadeLivre:
+        type: number
+      quantidadeBloqueada:
+        type: number
