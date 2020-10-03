@@ -1,11 +1,11 @@
 swagger: '2.0'
 info:
-  description: "API contento os recurosos para o e-Commerce Compra Fácil / Grupo 9."
+  description: "API que contém os recurosos para o e-Commerce Compra Fácil / Equipe 9."
   version: "1.0.0"
   title: "Compra Fácil API"
   termsOfService: "https://github.com/eNove/unicamp-engsoft-2020-inf332-pratica2"
   contact:
-    email: "comprafacil@gmail.com"
+    email: "comprafacil@enove.com"
   license:
     name: "Apache 2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
@@ -36,7 +36,7 @@ paths:
     post:
       tags:
         - listadepresentes
-      summary: Oferecido para cria uma lista de presentes
+      summary: Oferecido para criar uma lista de presentes.
       description: Inclui uma lista de presentes para ser utilizada de acordo com a ocasião festiva.
       consumes:
         - application/json
@@ -46,7 +46,7 @@ paths:
         - in: query
           name: presente-query-param
           type: string
-          description: informar o SKU do produto
+          description: Informar o SKU do produto.
           required: true
       security:
         - client_id: []
@@ -59,7 +59,7 @@ paths:
             items:
               $ref: '#/definitions/presente'
         '400':
-          description: Id de produto inexistênte.
+          description: ID de produto inexistente.
         '401':
           description: Não autorizado.
         '403':
@@ -77,27 +77,27 @@ paths:
       parameters:
         - name: "_offset"
           in: header
-          description: "Parâmetro que determina a posição inical da consulta"
+          description: "Parâmetro que determina a posição inical da consulta."
           required: true
           type: "integer"
           format: "int64"
         - name: "_limit"
           in: header
-          description: "Parâmetro que determina a quantidade de itens que serão retornados"
+          description: "Parâmetro que determina a quantidade de itens que serão retornados."
           required: true
           type: "integer"
           format: "int64"
       responses:
-        200:
-          description: "Indica que o processamento foi bem sucedido"
+        '200':
+          description: "Indica que o processamento foi bem sucedido."
           schema: 
               type: "array"
               items: 
                 $ref: '#/definitions/presente'
-        403:
+        '403':
           description: "Requisição Inválida"
-        405:
-          description: "Operação não permitida"
+        '405':
+          description: "Operação não permitida."
 definitions:
   produto:
     type: object
@@ -119,9 +119,9 @@ definitions:
     properties:
       idCliente:
         type: string
-        description: Identificadro do Cliente.
+        description: Identificação do cliente.
       produtos:
-        description: Lista dos produto solicitados.
+        description: Lista dos produtos solicitados.
         type: array
         items:
           type: object
