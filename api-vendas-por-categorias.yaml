@@ -32,7 +32,7 @@ paths:
       tags:
         - tag-lista-id-categoria
       summary: Obtem id de categoria
-      description: srá devolvidouma lista de Ids das categorias disponíveis.
+      description: será devolvido uma lista de Ids das categorias disponíveis.
       responses:
         '200':
           description: Sucesso.
