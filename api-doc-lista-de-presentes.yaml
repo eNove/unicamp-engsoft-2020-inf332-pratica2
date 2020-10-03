@@ -1,18 +1,13 @@
 swagger: '2.0'
 info:
-  description: "API que contém os recurosos para o e-Commerce Compra Fácil / Equipe 9."
-  version: "1.0.0"
-  title: "Compra Fácil API"
-  termsOfService: "https://github.com/eNove/unicamp-engsoft-2020-inf332-pratica2"
-  contact:
-    email: "comprafacil@enove.com"
-  license:
-    name: "Apache 2.0"
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+  title: API Lista Presentes
+  description: API que contém os recurosos para lista de presentes
+  version: 1.0.0
 host: localhost
 basePath: /presentes/v1
 tags:
-  - name: listadepresentes
+  - name: tag-presentes
+  - name: tag-incluir-lista-presentes
 security:
   - client_id: []
   - access_token: []
@@ -33,20 +28,20 @@ produces:
   - application/json
 paths:
   /presentes:
-    post:
+    get:
       tags:
-        - listadepresentes
-      summary: Oferecido para criar uma lista de presentes.
-      description: Inclui uma lista de presentes para ser utilizada de acordo com a ocasião festiva.
+        - tag-presentes
+      summary: Lista de presentes
+      description: Obtem produtos de um determinada lista de presentes
       consumes:
         - application/json
       produces:
         - application/json
       parameters:
         - in: query
-          name: presente-query-param
+          name: presentes-query-param
           type: string
-          description: Informar o SKU do produto.
+          description: informar ID da lista de presentes
           required: true
       security:
         - client_id: []
@@ -57,49 +52,64 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/presente'
+              $ref: '#/definitions/presentes'
         '400':
-          description: ID de produto inexistente.
+          description: ID da Lista de presentes não encontrado.
         '401':
           description: Não autorizado.
         '403':
           description: Proibido.
         '500':
           description: Erro Interno.
-    get:
+    post:
       tags:
-        - listadepresentes
-      summary: "Lista de presentes"
-      description: ""
-      operationId: "listMaisVendidos"
+        - tag-incluir-lista-presentes
+      summary: Incluir Lista de Presentes
+      description: Realiza a inclusão de uma lista de presentes
+      consumes:
+        - application/json
       produces:
-        - "application/json"
+        - application/json
       parameters:
-        - name: "_offset"
-          in: header
-          description: "Parâmetro que determina a posição inical da consulta."
-          required: true
-          type: "integer"
-          format: "int64"
-        - name: "_limit"
-          in: header
-          description: "Parâmetro que determina a quantidade de itens que serão retornados."
-          required: true
-          type: "integer"
-          format: "int64"
+      - in: body
+        name: body
+        description: corpo do request a ser enviado para inclusão da lista, deve ser enviado uma lista com os IDs dos produtos a serem incluídos na lista
+        required: true
+        schema:
+          $ref: '#/definitions/presentePost'
+      security:
+        - client_id: []
+        - access_token: []
       responses:
-        '200':
-          description: "Indica que o processamento foi bem sucedido."
-          schema: 
-              type: "array"
-              items: 
-                $ref: '#/definitions/presente'
+        '201':
+          description: Created.
+        '401':
+          description: Não autorizado.
         '403':
-          description: "Requisição Inválida"
-        '405':
-          description: "Operação não permitida."
+          description: Proibido.
+        '500':
+          description: Erro Interno.
 definitions:
-  produto:
+  presentes:
+    type: array
+    items:
+      type: object
+      $ref: '#/definitions/presente'
+  presente:
+    type: object
+    properties:
+      idPresente:
+        type: string
+      produto:
+        type: object
+        $ref: '#/definitions/produtoPresente'
+      embalagem:
+        type: string
+      fornecedores:
+        type: array
+        items:
+          $ref: '#/definitions/fornecedor'
+  produtoPresente:
     type: object
     properties:
       id:
@@ -108,24 +118,10 @@ definitions:
         type: string
       preco:
         type: number
-      quantidadeTotal:
-        type: number
-      quantidadeLivre:
-        type: number
-      quantidadeBloqueada:
-        type: number
-  presente:
-    type: object
-    properties:
-      idCliente:
-        type: string
-        description: Identificação do cliente.
-      produtos:
-        description: Lista dos produtos solicitados.
+      avaliacoes:
         type: array
         items:
-          type: object
-          $ref: '#/definitions/produto'
+          $ref: '#/definitions/avaliacao'
   cliente:
     type: object
     properties:
@@ -137,3 +133,33 @@ definitions:
         type: string
       idAvaliacao:
         type: string
+  avaliacao:
+    type: object
+    properties:
+      clientes:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/cliente'
+  fornecedor:
+    type: object
+    properties:
+      idFornecedor:
+        type: string
+      name:
+        type: string
+      avaliacoes:
+        type: object
+        $ref: '#/definitions/avaliacao'
+      mediaAvaliacao:
+        type: number
+      quantidadeVenda:
+        type: integer
+  presentePost:
+    type: object
+    properties:
+      produtos:
+        description: informar os IDs dos produtos a serem incluídos na lista de presentes.
+        type: array
+        items:
+          type: string
