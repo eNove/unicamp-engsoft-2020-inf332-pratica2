@@ -81,35 +81,7 @@ definitions:
         description: lista de fornecedores do produto solicitado
         items:
             type: object
-            properties:
-              idFornecedor:
-                type: string
-              name:
-                type: string
-              produtos:
-                type: array
-                items:
-                  type: object
-                  $ref: '#/definitions/produto'
-              avaliacoes:
-                type: object
-                properties:
-                  clientes:
-                    type: array
-                    items:
-                      properties:
-                        idCliente:
-                          type: string
-                        nota:
-                          type: number
-                        comentario:
-                          type: string
-                        idAvaliacao:
-                          type: string
-              mediaAvaliacao:
-                type: number
-              quantidadeVenda:
-                type: integer
+            $ref: '#/definitions/fornecedor'
   produto:
     type: object
     properties:
@@ -125,3 +97,41 @@ definitions:
         type: number
       quantidadeBloqueada:
         type: number
+  cliente:
+    type: object
+    properties:
+      idCliente:
+        type: string
+      nota:
+        type: number
+      comentario:
+        type: string
+      idAvaliacao:
+        type: string
+  avaliacao:
+    type: object
+    properties:
+      clientes:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/cliente'
+  fornecedor:
+    type: object
+    properties:
+      idFornecedor:
+        type: string
+      name:
+        type: string
+      produtos:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/produto'
+      avaliacoes:
+        type: object
+        $ref: '#/definitions/avaliacao'
+      mediaAvaliacao:
+        type: number
+      quantidadeVenda:
+        type: integer
