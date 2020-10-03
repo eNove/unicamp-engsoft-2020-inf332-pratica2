@@ -13,6 +13,7 @@ host: localhost
 basePath: /precos/v1
 tags:
   - name: tag-precos
+  - name: promocao
 security:
   - client_id: []
   - access_token: []
@@ -60,6 +61,85 @@ paths:
               $ref: '#/definitions/precos'
         '400':
           description: Id de produto inexistênte.
+        '401':
+          description: Não autorizado.
+        '403':
+          description: Proibido.
+        '500':
+          description: Erro Interno.
+  /promocoes:
+    post:
+      tags:
+        - promocao
+      summary: Obtem promocoes
+      description: Obtem produtos em promocao no momento.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Promocoes de produtos do fornecedor"
+        required: true
+        schema:
+          $ref: "#/definitions/promocao"
+      security:
+        - client_id: []
+        - access_token: []
+      responses:
+        '200':
+          description: Sucesso.
+          schema:
+            type: boolean
+        '401':
+          description: Não autorizado.
+        '403':
+          description: Proibido.
+        '500':
+          description: Erro Interno.
+    get:
+      tags:
+        - promocao
+      summary: Obtem promocoes
+      description: Obtem produtos em promocao no momento.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+      - name: codigo_fornecedor
+        in: query
+        type: string
+        description: "identificador do client de acesso"
+        required: true
+      - name: categoria
+        in: query
+        type: string
+        description: Categoria do produto
+        required: false
+      - name: valormaximo
+        in: query
+        type: number
+        description: Maior preco promocional aceitavel
+        required: false 
+      - name: produtos
+        in: query
+        type: array
+        items:
+          type: string
+        description: Categoria do produto
+        required: false
+      security:
+        - client_id: []
+        - access_token: []
+      responses:
+        '200':
+          description: Sucesso.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/produto_promocao'
         '401':
           description: Não autorizado.
         '403':
