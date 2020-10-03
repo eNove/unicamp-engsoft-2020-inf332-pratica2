@@ -31,7 +31,7 @@ paths:
       tags:
         - tag-lista-produtos
       summary: Lista de produtos
-      description: Obtem lista dos Ids de produtos disponíveis para consulta
+      description: Obtém lista dos Ids de produtos disponíveis para consulta
       responses:
         '200':
           description: Sucesso.

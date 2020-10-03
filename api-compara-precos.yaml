@@ -32,7 +32,7 @@ paths:
       tags:
         - tag-precos
       summary: Lista de produtos
-      description: Obtem lista de produtos para comparar preços
+      description: Obtém lista de produtos para comparar preços
       responses:
         303:
           description: Verifique os códigos de produtos disponíveis para comparar preços
@@ -42,8 +42,8 @@ paths:
     get:
       tags:
         - tag-comparar-precos
-      summary: Obtem coleção
-      description: Obtem uma coleção de preços para o mesmo produto de fornecedores diferentes.
+      summary: Obtém coleção
+      description: Obtém uma coleção de preços para o mesmo produto de fornecedores diferentes.
       consumes:
         - application/json
       produces:
@@ -65,7 +65,7 @@ paths:
             items:
               $ref: '#/definitions/precos'
         '400':
-          description: Id do produto inexistênte.
+          description: Id do produto inexistente.
         '401':
           description: Não autorizado.
         '403':
@@ -78,7 +78,7 @@ definitions:
     properties:
       idProduto:
         type: string
-        description: Identificadro do produto.
+        description: Identificador do produto.
       name:
         type: string
         description: Nome do produto.

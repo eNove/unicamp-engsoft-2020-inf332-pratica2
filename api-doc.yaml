@@ -1,14 +1,14 @@
 swagger: '2.0'
 info:
-  description: "API contento os recurosos para o e-Commerce Compra Fácil / Grupo 9."
-  version: "1.0.0"
-  title: "Compra Fácil API"
-  termsOfService: "https://github.com/eNove/unicamp-engsoft-2020-inf332-pratica2"
+  description: API que contém os recurosos para o e-Commerce Compra Fácil / Equipe 9.
+  version: '1.0.0'
+  title: Compra Fácil API
+  termsOfService: https://github.com/eNove/unicamp-engsoft-2020-inf332-pratica2
   contact:
-    email: "comprafacil@gmail.com"
+    email: comprafacil@enove.com
   license:
-    name: "Apache 2.0"
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
 host: localhost
 basePath: /precos/v1
 tags:
@@ -37,8 +37,8 @@ paths:
     get:
       tags:
         - tag-precos
-      summary: Obtem coleção
-      description: Obtem uma coleção de preços para o mesmo produto de fornecedores diferentes.
+      summary: Obtém coleção
+      description: Obtém uma coleção de preços para o mesmo produto de fornecedores diferentes.
       consumes:
         - application/json
       produces:
@@ -60,7 +60,7 @@ paths:
             items:
               $ref: '#/definitions/precos'
         '400':
-          description: Id de produto inexistênte.
+          description: ID de produto inexistente.
         '401':
           description: Não autorizado.
         '403':
@@ -72,18 +72,18 @@ paths:
       tags:
         - promocao
       summary: Cadastra promocoes
-      description: Obtem produtos em promocao no momento.
+      description: Obtém produtos em promocao no momento.
       consumes:
         - application/json
       produces:
         - application/json
       parameters:
-      - in: "body"
-        name: "body"
-        description: "Promocoes de produtos do fornecedor"
+      - in: body
+        name: body
+        description: Promoções de produtos do fornecedor
         required: true
         schema:
-          $ref: "#/definitions/promocao"
+          $ref: '#/definitions/promocao'
       security:
         - client_id: []
         - access_token: []
@@ -101,8 +101,8 @@ paths:
     get:
       tags:
         - promocao
-      summary: Obtem promocoes
-      description: Obtem produtos em promocao no momento.
+      summary: Obtém promoções
+      description: Obtém produtos em promoção no momento.
       consumes:
         - application/json
       produces:
@@ -111,7 +111,7 @@ paths:
       - name: codigo_fornecedor
         in: query
         type: string
-        description: "identificador do client de acesso"
+        description: Identificador do client de acesso.
         required: true
       - name: categoria
         in: query
@@ -157,12 +157,12 @@ paths:
       produces:
         - application/json
       parameters:
-      - in: "body"
-        name: "descontos"
-        description: "Promocoes de produtos do fornecedor"
+      - in: body
+        name: descontos
+        description: Promoções de produtos do fornecedor.
         required: true
         schema:
-          $ref: "#/definitions/produto_desconto"
+          $ref: '#/definitions/produto_desconto'
       security:
         - client_id: []
         - access_token: []
@@ -185,13 +185,13 @@ definitions:
     properties:
       idProduto:
         type: string
-        description: Identificadro do produto.
+        description: Identificador do produto.
       name:
         type: string
         description: Nome do produto.
       fornecedores:
         type: array
-        description: lista de fornecedores do produto solicitado
+        description: Lista de fornecedores do produto solicitado.
         items:
             type: object
             $ref: '#/definitions/fornecedor'
@@ -263,43 +263,43 @@ definitions:
     properties:
       idproduto:
         type: string
-        description: codigo do produto na plataforma
+        description: Código do produto na plataforma.
       nome_produto:
         type: string
-        description: Nome do produto
+        description: Nome do produto.
       categoria:
         type: string
-        description: categoria do produto na plataforma
+        description: Categoria do produto na plataforma.
       preco_promocional: 
         type: number
-        description: Preco promocional do produto
+        description: Preço promocional do produto.
       max_desconto_leilao:
         type: number
-        description: maximo desconto permitido no valor para leilao
+        description: Máximo desconto permitido no valor para leilão.
       data_inicio_promocao:
-        type: "string"
-        format: "date-time"
+        type: string
+        format: date-time
       data_fim_promocao:
-        type: "string"
-        format: "date-time"
+        type: string
+        format: date-time
   produto_promocao:
     type: object
     properties:
       idproduto:
         type: string
-        description: Codigo do produto na plataforma
+        description: Código do produto na plataforma.
       nome_produto:
         type: string
-        description: Nome do produto
+        description: Nome do produto.
       categoria:
         type: string
-        description: categoria do produto na plataforma
+        description: Categoria do produto na plataforma.
       preco_original:
         type: number
-        description: Preco original do produto
+        description: Preço original do produto.
       preco_promocional:
         type: number
-        description: Preco promocional do produto
+        description: Preço promocional do produto.
       data_fim_promocao:
         type: string
         format: date-time
@@ -308,10 +308,10 @@ definitions:
     properties:
       nome:
         type: string
-        description: nome do produto na plataforma
+        description: Nome do produto na plataforma.
       categoria:
         type: string
-        description: Categoria do produto desejado, quando nao houver id
+        description: Categoria do produto desejado, quando não houver ID.
       nome_produto:
         type: string
-        description: Nome do produto desejado
+        description: Nome do produto desejado.
