@@ -215,3 +215,31 @@ definitions:
         type: number
       quantidadeVenda:
         type: integer
+  promocao:
+    type: object
+    properties:
+      idfornecedor:
+        type: string
+      produtos:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/produto-promocao-cadastro'
+  produto-promocao-cadastro:
+    type: object
+    properties:
+      idproduto:
+        type: string
+        description: codigo do produto na plataforma
+      preco_promocional: 
+        type: number
+        description: Preco promocional do produto
+      max_desconto_leilao:
+        type: number
+        description: maximo desconto permitido no valor para leilao
+      data_inicio_promocao:
+        type: "string"
+        format: "date-time"
+      data_fim_promocao:
+        type: "string"
+        format: "date-time"
