@@ -243,3 +243,18 @@ definitions:
       data_fim_promocao:
         type: "string"
         format: "date-time"
+  produto_promocao:
+    type: object
+    properties:
+      idproduto:
+        type: string
+        description: Codigo do produto na plataforma
+      preco_original:
+        type: number
+        description: Preco original do produto
+      preco_promocional:
+        type: number
+        description: Preco promocional do produto
+      data_fim_promocao:
+        type: string
+        format: date-time
