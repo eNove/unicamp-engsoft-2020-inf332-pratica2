@@ -1,8 +1,8 @@
 swagger: '2.0'
 info:
   title: API Lista Presentes
-  description: API que contém os recurosos para lista de presentes
-  version: 1.0.0
+  description: API que contém os recursos para lista de presentes.
+  version: '1.0.0'
 host: localhost
 basePath: /presentes/v1
 tags:
@@ -32,7 +32,7 @@ paths:
       tags:
         - tag-presentes
       summary: Lista de presentes
-      description: Obtem produtos de um determinada lista de presentes
+      description: Obtem produtos de um determinada lista de presentes.
       consumes:
         - application/json
       produces:
@@ -41,7 +41,7 @@ paths:
         - in: query
           name: presentes-query-param
           type: string
-          description: informar ID da lista de presentes
+          description: Informar ID da lista de presentes.
           required: true
       security:
         - client_id: []
@@ -65,7 +65,7 @@ paths:
       tags:
         - tag-incluir-lista-presentes
       summary: Incluir Lista de Presentes
-      description: Realiza a inclusão de uma lista de presentes
+      description: Realiza a inclusão de uma lista de presentes.
       consumes:
         - application/json
       produces:
@@ -73,7 +73,7 @@ paths:
       parameters:
       - in: body
         name: body
-        description: corpo do request a ser enviado para inclusão da lista, deve ser enviado uma lista com os IDs dos produtos a serem incluídos na lista
+        description: Corpo do request a ser enviado para inclusão da lista. Deve ser enviado uma lista com os IDs dos produtos a serem incluídos nela.
         required: true
         schema:
           $ref: '#/definitions/presentePost'
@@ -159,7 +159,7 @@ definitions:
     type: object
     properties:
       produtos:
-        description: informar os IDs dos produtos a serem incluídos na lista de presentes.
+        description: Informar os IDs dos produtos a serem incluídos na lista de presentes.
         type: array
         items:
           type: string

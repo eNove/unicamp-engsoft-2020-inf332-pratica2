@@ -1,8 +1,8 @@
 swagger: '2.0'
 info:
   title: API Preços
-  description: API para comparação de preços dos produtos
-  version: 1.0.0
+  description: API para comparação de preços dos produtos.
+  version: '1.0.0'
 host: localhost
 basePath: /precos/v1
 tags:
@@ -32,10 +32,10 @@ paths:
       tags:
         - tag-precos
       summary: Lista de produtos
-      description: Obtém lista de produtos para comparar preços
+      description: Obtém lista de produtos para comparar preços.
       responses:
-        303:
-          description: Verifique os códigos de produtos disponíveis para comparar preços
+        '303':
+          description: Verifique os códigos de produtos disponíveis para comparar preços.
           schema:
             $ref: '#/definitions/redirect'
   /comparar:
@@ -52,7 +52,7 @@ paths:
         - in: query
           name: precos-query-param
           type: string
-          description: informar o SKU do produto
+          description: Informar o SKU do produto.
           required: true
       security:
         - client_id: []
@@ -65,7 +65,7 @@ paths:
             items:
               $ref: '#/definitions/precos'
         '400':
-          description: Id do produto inexistente.
+          description: ID do produto inexistente.
         '401':
           description: Não autorizado.
         '403':
@@ -84,7 +84,7 @@ definitions:
         description: Nome do produto.
       fornecedores:
         type: array
-        description: lista de fornecedores do produto solicitado
+        description: Lista de fornecedores do produto solicitado.
         items:
             type: object
             $ref: '#/definitions/fornecedor'

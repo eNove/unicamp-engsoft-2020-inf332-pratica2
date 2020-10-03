@@ -1,8 +1,8 @@
 swagger: '2.0'
 info:
   title: API Vendas por Categoria
-  description: API disponibiliza dados das vendas realizadas por categorias
-  version: 1.0.0
+  description: API que disponibiliza dados das vendas realizadas por categorias.
+  version: '1.0.0'
 host: localhost
 basePath: /vendas/v1
 tags:
@@ -31,8 +31,8 @@ paths:
     get:
       tags:
         - tag-lista-id-categoria
-      summary: Obtem id de categoria
-      description: será devolvido uma lista de Ids das categorias disponíveis.
+      summary: Obtém o ID de categoria
+      description: Será retornado uma lista de IDs das categorias disponíveis.
       responses:
         '200':
           description: Sucesso.
@@ -50,8 +50,8 @@ paths:
     get:
       tags:
         - tag-vendas-categoria
-      summary: Obtem coleção
-      description: Obtem uma coleção dos produtos mais vendidos por categoria.
+      summary: Obtém coleção
+      description: Obtém uma coleção dos produtos mais vendidos por categoria.
       consumes:
         - application/json
       produces:
@@ -60,7 +60,7 @@ paths:
         - in: query
           name: catogoria-query-param
           type: string
-          description: informar a categoria que deseja informações
+          description: Informar a categoria que deseja informações.
           required: true
       security:
         - client_id: []
@@ -73,7 +73,7 @@ paths:
             items:
               $ref: '#/definitions/categoria'
         '400':
-          description: Id da categoria inexistênte.
+          description: ID da categoria inexistente.
         '401':
           description: Não autorizado.
         '403':
@@ -84,8 +84,8 @@ paths:
     get:
       tags: 
         - tag-vendas-lista-catogorias
-      summary: Obtem coleçãoem Lote
-      description: Obtem uma coleção dos produtos mais vendidos por categoria.
+      summary: Obtém coleção em Lote
+      description: Obtém uma coleção dos produtos mais vendidos por categoria em lote.
       consumes:
         - application/json
       produces:
@@ -98,7 +98,7 @@ paths:
             type: string
           minimum: 1
           required: true
-          description: informar lista de categorias que deseja informações
+          description: Informar lista de categorias que deseja informações.
       security:
         - client_id: []
         - access_token: []
@@ -110,7 +110,7 @@ paths:
             items:
               $ref: '#/definitions/categoria'
         '400':
-          description: Id da categoria inexistênte.
+          description: ID da categoria inexistente.
         '401':
           description: Não autorizado.
         '403':
@@ -124,19 +124,19 @@ definitions:
     properties:
       idCategoria:
         type: string
-        description: Identificadro da categoria.
+        description: Identificador da categoria.
       name:
         type: string
         description: Nome da categoria.
       produtos:
         type: array
-        description: lista dos ids dos produtos mais vendidos por categoria
+        description: Lista dos IDs dos produtos mais vendidos por categoria.
         items:
             type: object
             $ref: '#/definitions/produtoVendido'
       clientes:
         type: array
-        description: lista de clientes que realizaram as compras dos produtos mais vendidos.
+        description: Lista de clientes que realizaram as compras dos produtos mais vendidos.
         items:
           $ref: '#/definitions/cliente'
   cliente:
@@ -152,7 +152,7 @@ definitions:
         type: string
       idProdutos:
         type: array
-        description: lista de ids dos produtos que esse cliente comprou
+        description: Lista de IDs dos produtos que esse cliente comprou.
         items:
           type: string
   produtoVendido:

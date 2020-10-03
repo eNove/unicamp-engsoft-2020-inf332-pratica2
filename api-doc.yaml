@@ -47,7 +47,7 @@ paths:
         - in: query
           name: precos-query-param
           type: string
-          description: informar o SKU do produto
+          description: Informar o SKU do produto.
           required: true
       security:
         - client_id: []
@@ -71,7 +71,7 @@ paths:
     post:
       tags:
         - promocao
-      summary: Cadastra promocoes
+      summary: Cadastra promoções
       description: Obtém produtos em promocao no momento.
       consumes:
         - application/json
@@ -80,7 +80,7 @@ paths:
       parameters:
       - in: body
         name: body
-        description: Promoções de produtos do fornecedor
+        description: Promoções de produtos do fornecedor.
         required: true
         schema:
           $ref: '#/definitions/promocao'
@@ -121,14 +121,14 @@ paths:
       - name: valormaximo
         in: query
         type: number
-        description: Maior preco promocional aceitavel
+        description: Maior preço promocional aceitável.
         required: false 
       - name: produtos
         in: query
         type: array
         items:
           type: string
-        description: Categoria do produto
+        description: Categoria do produto.
         required: false
       security:
         - client_id: []
