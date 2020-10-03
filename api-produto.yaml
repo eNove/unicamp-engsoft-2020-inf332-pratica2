@@ -1,0 +1,41 @@
+swagger: '2.0'
+info:
+  title: API Produtos
+  description: API para consulta dos Ids de produtos disponíveis para consulta
+  version: 1.0.0
+host: localhost
+basePath: /produtos/v1
+tags:
+  - name: tag-lista-produtos
+security:
+  - client_id: []
+  - access_token: []
+securityDefinitions:
+  client_id:
+    type: apiKey
+    in: header
+    name: client_id
+  access_token:
+    type: apiKey
+    in: header
+    name: access_token
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /lista:
+    get:
+      tags:
+        - tag-lista-produtos
+      summary: Lista de produtos
+      description: Obtem lista dos Ids de produtos disponíveis para consulta
+      responses:
+        '200':
+          description: Sucesso.
+          schema:
+            type: array
+            items:
+              type: string

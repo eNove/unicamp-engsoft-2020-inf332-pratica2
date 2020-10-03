@@ -1,0 +1,152 @@
+swagger: '2.0'
+info:
+  title: API Preços
+  description: API para comparação de preços dos produtos
+  version: 1.0.0
+host: localhost
+basePath: /precos/v1
+tags:
+  - name: tag-precos
+  - name: tag-comparar-precos
+security:
+  - client_id: []
+  - access_token: []
+securityDefinitions:
+  client_id:
+    type: apiKey
+    in: header
+    name: client_id
+  access_token:
+    type: apiKey
+    in: header
+    name: access_token
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /lista:
+    get:
+      tags:
+        - tag-precos
+      summary: Lista de produtos
+      description: Obtem lista de produtos para comparar preços
+      responses:
+        303:
+          description: Verifique os códigos de produtos disponíveis para comparar preços
+          schema:
+            $ref: '#/definitions/redirect'
+  /comparar:
+    get:
+      tags:
+        - tag-comparar-precos
+      summary: Obtem coleção
+      description: Obtem uma coleção de preços para o mesmo produto de fornecedores diferentes.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: precos-query-param
+          type: string
+          description: informar o SKU do produto
+          required: true
+      security:
+        - client_id: []
+        - access_token: []
+      responses:
+        '200':
+          description: Sucesso.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/precos'
+        '400':
+          description: Id do produto inexistênte.
+        '401':
+          description: Não autorizado.
+        '403':
+          description: Proibido.
+        '500':
+          description: Erro Interno.
+definitions:
+  precos:
+    type: object
+    properties:
+      idProduto:
+        type: string
+        description: Identificadro do produto.
+      name:
+        type: string
+        description: Nome do produto.
+      fornecedores:
+        type: array
+        description: lista de fornecedores do produto solicitado
+        items:
+            type: object
+            $ref: '#/definitions/fornecedor'
+  produto:
+    type: object
+    properties:
+      id:
+        type: string
+      nome:
+        type: string
+      preco:
+        type: number
+      quantidadeTotal:
+        type: number
+      quantidadeLivre:
+        type: number
+      quantidadeBloqueada:
+        type: number
+  cliente:
+    type: object
+    properties:
+      idCliente:
+        type: string
+      nota:
+        type: number
+      comentario:
+        type: string
+      idAvaliacao:
+        type: string
+  avaliacao:
+    type: object
+    properties:
+      clientes:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/cliente'
+  fornecedor:
+    type: object
+    properties:
+      idFornecedor:
+        type: string
+      name:
+        type: string
+      produtos:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/produto'
+      avaliacoes:
+        type: object
+        $ref: '#/definitions/avaliacao'
+      mediaAvaliacao:
+        type: number
+      quantidadeVenda:
+        type: integer
+  redirect:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      uri:
+        type: string

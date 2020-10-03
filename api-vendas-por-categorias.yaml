@@ -1,0 +1,168 @@
+swagger: '2.0'
+info:
+  title: API Vendas por Categoria
+  description: API disponibiliza dados das vendas realizadas por categorias
+  version: 1.0.0
+host: localhost
+basePath: /vendas/v1
+tags:
+  - name: tag-vendas-categoria
+  - name: tag-vendas-lista-catogorias
+security:
+  - client_id: []
+  - access_token: []
+securityDefinitions:
+  client_id:
+    type: apiKey
+    in: header
+    name: client_id
+  access_token:
+    type: apiKey
+    in: header
+    name: access_token
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /listaCategoria:
+    get:
+      tags:
+        - tag-lista-id-categoria
+      summary: Obtem id de categoria
+      description: srá devolvidouma lista de Ids das categorias disponíveis.
+      responses:
+        '200':
+          description: Sucesso.
+          schema:
+            type: array
+            items:
+              type: string
+        '401':
+          description: Não autorizado.
+        '403':
+          description: Proibido.
+        '500':
+          description: Erro Interno.
+  /categoria:
+    get:
+      tags:
+        - tag-vendas-categoria
+      summary: Obtem coleção
+      description: Obtem uma coleção dos produtos mais vendidos por categoria.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: catogoria-query-param
+          type: string
+          description: informar a categoria que deseja informações
+          required: true
+      security:
+        - client_id: []
+        - access_token: []
+      responses:
+        '200':
+          description: Sucesso.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/categoria'
+        '400':
+          description: Id da categoria inexistênte.
+        '401':
+          description: Não autorizado.
+        '403':
+          description: Proibido.
+        '500':
+          description: Erro Interno.
+  /categorias:
+    get:
+      tags: 
+        - tag-vendas-lista-catogorias
+      summary: Obtem coleçãoem Lote
+      description: Obtem uma coleção dos produtos mais vendidos por categoria.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: lista-catogoria-query-param
+          type: array
+          items:
+            type: string
+          minimum: 1
+          required: true
+          description: informar lista de categorias que deseja informações
+      security:
+        - client_id: []
+        - access_token: []
+      responses:
+        '200':
+          description: Sucesso.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/categoria'
+        '400':
+          description: Id da categoria inexistênte.
+        '401':
+          description: Não autorizado.
+        '403':
+          description: Proibido.
+        '500':
+          description: Erro Interno.
+    
+definitions:
+  categoria:
+    type: object
+    properties:
+      idCategoria:
+        type: string
+        description: Identificadro da categoria.
+      name:
+        type: string
+        description: Nome da categoria.
+      produtos:
+        type: array
+        description: lista dos ids dos produtos mais vendidos por categoria
+        items:
+            type: object
+            $ref: '#/definitions/produtoVendido'
+      clientes:
+        type: array
+        description: lista de clientes que realizaram as compras dos produtos mais vendidos.
+        items:
+          $ref: '#/definitions/cliente'
+  cliente:
+    type: object
+    properties:
+      idCliente:
+        type: string
+      nome:
+        type: string
+      idade:
+        type: integer
+      genero:
+        type: string
+      idProdutos:
+        type: array
+        description: lista de ids dos produtos que esse cliente comprou
+        items:
+          type: string
+  produtoVendido:
+    type: object
+    properties:
+      id:
+        type: string
+      nome:
+        type: string
+      preco:
+        type: number
+      quantidadeVendido:
+        type: number
