@@ -1,3 +1,4 @@
+#TODO: REFACTOR - retirar precos e refatorar para apenas promocoes
 swagger: '2.0'
 info:
   description: API que contém os recurosos para o e-Commerce Compra Fácil / Equipe 9.
