@@ -1,0 +1,566 @@
+swagger: '2.0'
+info:
+  title: API de parceiros do e-Commerce Compra Fácil
+  description: API para integração de parceiros do e-commerce disponibilizando os principais endpoints para criação de soluções conectadas.
+  version: '1.0.0'
+host: api.comprafacil.com.br
+basePath: /parceiros/v1
+tags:
+  - name: produtos
+  - name: precos
+  - name: comparar-precos
+  - name: historico-precos
+  - name: avaliacoes
+  - name: categorias
+  - name: mais-vendidos
+  - name: lista-presente
+  - name: promocoes
+security:
+  - client_id: []
+  - access_token: []
+securityDefinitions:
+  client_id:
+    type: apiKey
+    in: header
+    name: client_id
+  access_token:
+    type: apiKey
+    in: header
+    name: access_token
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /produtos:
+    get:
+      tags:
+        - produtos
+      summary: Lista de produtos.
+      description: Obtém lista de produtos ativos no catálogo do site.
+      responses:
+        200:
+          description: Lista retornada com sucesso.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/produto'
+        401:
+          description: Não autenticado.
+        403:
+          description: Não autorizado.
+        500:
+          description: Ocorreu um erro interno ao recuperar os produtos.
+  /produtos/{IdProduto}:
+    get:
+      tags:
+        - produtos
+      summary: Detalhes do produto.
+      description: Obtém os detalhes de um produtos específico.
+      parameters:
+        - name: IdProduto
+          in: path
+          description: ID do produto.
+          required: true
+          type: string
+      responses:
+        200:
+          description: Produto retornado com sucesso.
+          schema:
+            $ref: '#/definitions/produtoDetalhe'
+        404:
+          description: Produto não encontrado.
+        400:
+          description: Requisição inválida.
+        401:
+          description: Não autenticado.
+        403:
+          description: Não autorizado.
+        500:
+          description: Ocorreu um erro interno ao recuperar o produto.
+  /produtos/{IdProduto}/precos:
+    get:
+      tags:
+        - produtos
+        - precos
+        - comparar-precos
+      summary: Listagem de preços do produto.
+      description: Obtém uma coleção de preços para o mesmo produto de fornecedores diferentes.
+      parameters:
+        - name: IdProduto
+          in: path
+          description: ID do produto.
+          required: true
+          type: string
+      responses:
+        200:
+          description: Preços do produto retornado com sucesso.
+          schema:
+            allOf: 
+              - $ref: '#/definitions/produto'
+              - type: object
+                properties:
+                  melhorPreco:
+                    $ref: '#/definitions/preco'
+                  precos:
+                    $ref: '#/definitions/precos'
+        404:
+          description: Produto não encontrado.
+        400:
+          description: Requisição inválida.
+        401:
+          description: Não autenticado.
+        403:
+          description: Não autorizado.
+        500:
+          description: Ocorreu um erro interno ao recuperar os preços do produto.
+  /produtos/{IdProduto}/historico-precos:
+    get:
+      tags:
+        - produtos
+        - precos
+        - historico-precos
+      summary: Histórico de preços do produto.
+      description: Obtém uma coleção do histórico de preços para um produto.
+      parameters:
+        - name: IdProduto
+          in: path
+          description: ID do produto.
+          required: true
+          type: string
+      responses:
+        200:
+          description: Histórico de preço de um produto específico.
+          schema:
+            allOf: 
+              - $ref: '#/definitions/produto'
+              - type: object
+                properties:
+                  ultimoPreco:
+                    $ref: '#/definitions/precoHistorico'
+                  precos:
+                    type: array
+                    items:
+                      $ref: '#/definitions/precoHistorico'
+        404:
+          description: Produto não encontrado.
+        400:
+          description: Requisição inválida.
+        401:
+          description: Não autenticado.
+        403:
+          description: Não autorizado.
+        500:
+          description: Ocorreu um erro interno ao recuperar o histórico de preços do produto.
+  /produtos/{IdProduto}/avaliacoes:
+    get:
+      tags:
+        - produtos
+        - avaliacoes
+      summary: Listagem de avaliações do produto.
+      description: Obtém uma coleção de avaliações para um produto específico.
+      parameters:
+        - name: IdProduto
+          in: path
+          description: ID do produto.
+          required: true
+          type: string
+      responses:
+        200:
+          description: Avaliações do produto retornado com sucesso.
+          schema:
+            allOf: 
+              - $ref: '#/definitions/produto'
+              - type: object
+                properties:
+                  avaliacoes:
+                    type: array
+                    items:
+                      $ref: '#/definitions/avaliacao'
+        404:
+          description: Produto não encontrado.
+        400:
+          description: Requisição inválida.
+        401:
+          description: Não autenticado.
+        403:
+          description: Não autorizado.
+        500:
+          description: Ocorreu um erro interno ao recuperar os preços do produto.
+  /categorias:
+    get:
+      tags:
+        - categorias
+      summary: Lista de categorias.
+      description: Obtém lista de categorias ativas no catálogo do site.
+      responses:
+        200:
+          description: Lista retornada com sucesso.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/categoria'
+        401:
+          description: Não autenticado.
+        403:
+          description: Não autorizado.
+        500:
+          description: Ocorreu um erro interno ao recuperar as categorias.
+  /categorias/{IdCategoria}:
+    get:
+      tags:
+        - categorias
+      summary: Detalhes da categoria.
+      description: Obtém os detalhes de uma categoria específica.
+      parameters:
+        - name: IdCategoria
+          in: path
+          description: ID da categoria.
+          required: true
+          type: string
+      responses:
+        200:
+          description: Categoria retornada com sucesso.
+          schema:
+            $ref: '#/definitions/categoriaDetalhe'
+        404:
+          description: Categoria não encontrada.
+        400:
+          description: Requisição inválida.
+        401:
+          description: Não autenticado.
+        403:
+          description: Não autorizado.
+        500:
+          description: Ocorreu um erro interno ao recuperar a categoria.
+  /categorias/{IdCategoria}/mais-vendidos:
+    get:
+      tags:
+        - categorias
+        - mais-vendidos
+      summary: Mais vendidos da categoria.
+      description: Obtém os produtos mais vendidos de uma categoria específica.
+      parameters:
+        - name: IdCategoria
+          in: path
+          description: ID da categoria.
+          required: true
+          type: array
+          items:
+            type: string
+          minimum: 1
+      responses:
+        200:
+          description: Categoria retornada com sucesso.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/categoriaDetalhe'
+        404:
+          description: Categoria não encontrada.
+        400:
+          description: Requisição inválida.
+        401:
+          description: Não autenticado.
+        403:
+          description: Não autorizado.
+        500:
+          description: Ocorreu um erro interno ao recuperar os produtos mais vendidos da categoria.
+  /lista-presentes:
+    post:
+      tags:
+        - lista-presente
+      summary: Cria uma lista de presentes
+      description: Cria uma lista de presente com base nos produtos informados.
+      parameters:
+      - in: body
+        name: body
+        description: Corpo do request a ser enviado para inclusão da lista. Deve ser enviado uma lista com os IDs dos produtos a serem incluídos nela.
+        required: true
+        schema:
+          $ref: '#/definitions/inputListaPresente'
+      responses:
+        201:
+          description: Lista criada com sucesso.
+          schema:
+            type: object
+            properties:
+              idListaPresente:
+                type: string
+        400:
+          description: Requisição inválida.
+        401:
+          description: Não autenticado.
+        403:
+          description: Não autorizado.
+        500:
+          description: Ocorreu um erro interno ao criar a lista de presente.
+  /lista-presentes/{IdListaPresente}:
+    get:
+      tags:
+        - lista-presente
+      summary: Obtem uma lista de presentes
+      description: Obtem os detalhes de um determinada lista de presentes.
+      parameters:
+        - in: path
+          name: IdListaPresente
+          type: string
+          description: O ID da lista de presentes.
+          required: true
+      responses:
+        200:
+          description: Sucesso.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/listaPresente'
+        404:
+          description: Lista de presente não encontrada.
+        400:
+          description: Requisição inválida.
+        401:
+          description: Não autenticado.
+        403:
+          description: Não autorizado.
+        500:
+          description: Ocorreu um erro interno ao recuperar a lista de presente.
+    put:
+      tags:
+        - lista-presente
+      summary: Atualiza uma lista de presentes
+      description: Atualiza uma lista de presente com base nos produtos informados.
+      parameters:
+        - in: path
+          name: IdListaPresente
+          type: string
+          description: O ID da lista de presentes.
+          required: true
+        - in: body
+          name: body
+          description: Corpo do request a ser enviado para inclusão da lista. Deve ser enviado uma lista com os IDs dos produtos a serem incluídos nela.
+          required: true
+          schema:
+            $ref: '#/definitions/inputListaPresente'
+      responses:
+        200:
+          description: Lista de presente atualizada com suceso
+        400:
+          description: Requisição inválida.
+        401:
+          description: Não autenticado.
+        403:
+          description: Não autorizado.
+        500:
+          description: Ocorreu um erro interno ao atualizar a lista de presente.
+    delete:
+      tags:
+        - lista-presente
+      summary: Remove uma lista de presentes
+      description: Remove uma determinada lista de presentes.
+      parameters:
+        - in: path
+          name: IdListaPresente
+          type: string
+          description: O ID da lista de presentes.
+          required: true
+      responses:
+        200:
+          description: Lista de presente removida com suceso
+        400:
+          description: Requisição inválida.
+        401:
+          description: Não autenticado.
+        403:
+          description: Não autorizado.
+        500:
+          description: Ocorreu um erro interno ao remover a lista de presente.
+  /promocoes/{IdCategoria}:
+    get:
+      tags:
+        - promocoes
+      summary: Obtém promoções
+      description: Obtém produtos em promoção no momento.
+      parameters:
+      - name: IdCategoria
+        in: path
+        description: ID da categoria.
+        required: true
+        type: array
+        items:
+          type: string
+        minimum: 1
+      - name: valormaximo
+        in: query
+        type: number
+        description: Maior preço promocional aceitável.
+        required: false 
+      - name: produtos
+        in: query
+        type: array
+        items:
+          type: string
+        description: Categoria do produto.
+        required: false
+      responses:
+        200:
+          description: Promoções recuperadas com sucesso.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/produtoPromocao'
+        400:
+          description: Requisição inválida.
+        401:
+          description: Não autenticado.
+        403:
+          description: Não autorizado.
+        500:
+          description: Ocorreu um erro interno ao recuperar as promoções.
+
+definitions:
+  produtoSlim:
+    type: object
+    properties:
+      idProduto:
+        type: string
+      nome:
+        type: string
+  produto:
+    allOf: 
+      - $ref: '#/definitions/produtoSlim'
+      - type: object
+        properties:
+          categoria:
+            $ref: '#/definitions/categoria'
+  produtoDetalhe:
+    allOf: 
+      - $ref: '#/definitions/produto'
+      - type: object
+        properties:
+          quantidadeTotal:
+            type: number
+          quantidadeLivre:
+            type: number
+          quantidadeBloqueada:
+            type: number
+          mediaAvaliacao:
+            type: number
+  produtoPromocao:
+    allOf: 
+      - $ref: '#/definitions/produto'
+      - type: object
+        properties:
+          precoOriginal: 
+            $ref: '#/definitions/preco'
+          precoPromocional: 
+            $ref: '#/definitions/preco'
+          dataFimPromocao:
+            type: string
+            format: date-time
+  categoria:
+    type: object
+    properties:
+      idCategoria:
+        type: string
+      nome:
+        type: string
+  categoriaDetalhe:
+    allOf: 
+      - $ref: '#/definitions/categoria'
+      - type: object
+        properties:
+          produtos:
+            type: array
+            items:
+              allOf: 
+                - $ref: '#/definitions/produtoSlim'
+                - type: object
+                  properties:
+                    melhoPreco:
+                      $ref: '#/definitions/preco'
+                    mediaAvaliacao:
+                      type: number
+  precos:
+    type: array
+    items:
+      $ref: '#/definitions/preco'
+  preco:
+    allOf:
+      - $ref: '#/definitions/fornecedor'
+      - type: object
+        properties:
+          preco:
+            type: number
+  precoHistorico:
+    allOf: 
+      - $ref: '#/definitions/preco'
+      - type: object
+        properties:
+          data:
+            type: string
+            format: date-time
+  fornecedor:
+    type: object
+    properties:
+      idFornecedor:
+        type: string
+      name:
+        type: string
+  avaliacao:
+    allOf: 
+      - $ref: '#/definitions/cliente'
+      - type: object
+        properties:
+          idAvaliacao:
+            type: string
+          nota:
+            type: number
+          comentario:
+            type: string
+  cliente:
+    type: object
+    properties:
+      idCliente:
+        type: string
+      nomeExibicao:
+        type: string
+  listaPresente:
+    type: object
+    properties:
+      idListaPresente:
+        type: string
+      nome:
+        type: string
+      produtos:
+        type: array
+        items:
+          allOf: 
+            - $ref: '#/definitions/produto'
+            - type: object
+              properties:
+                melhorPreco:
+                  $ref: '#/definitions/preco'
+                precos:
+                  $ref: '#/definitions/precos'
+      embalagem:
+        type: string
+  inputListaPresente:
+    type: object
+    properties:
+      idCliente:
+        type: string
+      nome:
+        type: string
+      produtos:
+        type: array
+        items:
+          type: object
+          properties:
+            idProduto:
+              type: string
+            quantidade:
+              type: number
+              
+  
